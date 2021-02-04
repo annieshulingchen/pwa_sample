@@ -4,30 +4,27 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-  <title>Progressive Times - Online News</title>
+  <title>Progressive Times - Article</title>
   <link href="https://fonts.googleapis.com/css?family=Raleway|Merriweather" rel="stylesheet">
   <link rel="stylesheet" type="text/css" href="./css/site.css">
-  <!-- Adress bar styling -->
+    <!-- Adress bar styling -->
   <meta name="theme-color" content="#FFD700">
   <meta name="msapplication-navbutton-color" content="#FFD700">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <link rel="manifest" href="./manifest.json">
 </head>
-
 <body>
   <!-- header -->
-  <div id="header">
-    <img id="logo" src="./images/newspaper.svg" />
-    <h1>Progressive Times</h1>
-    <h6>Latest News</h6>
+  <div id="article-header">
+    <div id="article-title"></div>
   </div>
-  <!-- latest news -->
-  <div id="latest"></div>
+  <!-- article -->
+  <p id="article"></p>
   <hr>
-  <!-- javaScript -->
-  <script async src="./js/main.js"></script>
-  <script>
+  <!-- scripts -->
+  <script async src="./js/article.js"></script>
+    <script>
   var endpoint;
   var key;
   var authSecret;
@@ -70,6 +67,9 @@
                 })
                 .then(function(subscription) {
 
+                  // TODO: Send the subscription subscription.endpoint
+                  // to your server and save it to send a push message
+                  // at a later date
                   var rawKey = subscription.getKey ? subscription.getKey('p256dh') : '';
                   key = rawKey ? btoa(String.fromCharCode.apply(null, new Uint8Array(rawKey))) : '';
                   var rawAuthSecret = subscription.getKey ? subscription.getKey('auth') : '';
@@ -99,5 +99,4 @@
     }
   </script>
 </body>
-
 </html>
