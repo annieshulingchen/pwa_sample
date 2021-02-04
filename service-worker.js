@@ -23,9 +23,10 @@ self.addEventListener('install', event => {
 //   );
 // });
 
+// Cache any new resources as they are fetched
 self.addEventListener('fetch', function(event) {
   event.respondWith(
-    caches.match(event.request)
+    caches.match(event.request, { ignoreSearch: true })
     .then(function(response) {
       if (response) {
         return response;
@@ -58,4 +59,42 @@ self.addEventListener('fetch', function(event) {
       });
     })
   );
-}
+});
+
+
+self.addEventListener('push', function (event) {
+
+  var payload = event.data ? JSON.parse(event.data.text()) : 'no payload';
+
+  var title = 'Progressive Times';
+
+  // Determine the type of notification to display
+  if (payload.type === 'register') {
+    event.waitUntil(
+      self.registration.showNotification(title, {
+        body: payload.msg,
+        url: payload.url,
+        icon: payload.icon
+      })
+    );
+  } else if (payload.type === 'actionMessage') {
+    event.waitUntil(
+      self.registration.showNotification(title, {
+        body: payload.msg,
+        url: payload.url,
+        icon: payload.icon,
+        actions: [
+          { action: 'voteup', title: '👍 Up' },
+          { action: 'votedown', title: '👎 Down' }]
+      })
+    );
+  }
+});
+
+self.addEventListener('notificationclick', function (event) {
+  event.notification.close();
+
+  // Check if any actions were added
+  //////if (event.action === 'voteup')
+  clients.openWindow('http://localhost:8081/');
+}, false);

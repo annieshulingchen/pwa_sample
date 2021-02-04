@@ -2,6 +2,7 @@
   "name": "HelloPWA",
   "short_name": "Hello PWA by Annie",
   "start_url": "./index.html",
+  "display": "fullscreen",
   "theme_color": "#FFDF00",
   "background_color": "#FFDF00",
   "icons": [
